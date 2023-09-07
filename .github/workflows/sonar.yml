@@ -1,6 +1,7 @@
 name: sonarcloud
 on:
   push:
+  pull_request_target:
   pull_request:
 
 jobs:
@@ -9,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout action
+        if: github.event_name == 'pull_request_target'
+          run:|
+           git fetch origin "${{ github.event.pull_request.head.ref }}"
+           git checkout "${{ github.event.pull_request.head.ref }}"
+           else
         uses: actions/checkout@v3
       #  with:
          # fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
@@ -21,6 +27,9 @@ jobs:
                 -Dsonar.c.file.suffixes=-
                 -Dsonar.cpp.file.suffixes=-
                 -Dsonar.objc.file.suffixes=-
+                -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
+                -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref }} \
+                -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
