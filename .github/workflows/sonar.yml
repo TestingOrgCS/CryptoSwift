@@ -35,9 +35,9 @@ jobs:
                 -Dsonar.c.file.suffixes=-
                 -Dsonar.cpp.file.suffixes=-
                 -Dsonar.objc.file.suffixes=-
-                -Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
-                -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref }}
-                -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }}
+                #-Dsonar.pullrequest.key=${{ github.event.pull_request.number }}
+               # -Dsonar.pullrequest.base=${{ github.event.pull_request.base.ref }}
+               # -Dsonar.pullrequest.branch=${{ github.event.pull_request.head.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
